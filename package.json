@@ -1,0 +1,24 @@
+{
+  "name": "projetjavafaceidpatate",
+  "version": "1.0.0",
+  "description": "Le TP face id en Java du groupe 'Patate' de la classe B3A de l'EPSI de Lille",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hydelogos/ProjetJavaFaceIdPatate.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hydelogos/ProjetJavaFaceIdPatate/issues"
+  },
+  "homepage": "https://github.com/Hydelogos/ProjetJavaFaceIdPatate#readme",
+  "dependencies": {
+    "@fortawesome/react-fontawesome": "^0.1.4",
+    "bootstrap": "^4.3.1",
+    "jquery": "^3.4.1"
+  }
+}
