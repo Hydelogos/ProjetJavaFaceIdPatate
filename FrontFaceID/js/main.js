@@ -19,7 +19,7 @@ var alerteBool = false;
 function StartCam() {
 
     var video = document.querySelector(".videoElement");
-
+    
     if (video.srcObject == null) {
         if (navigator.mediaDevices.getUserMedia) {
             navigator.mediaDevices.getUserMedia({
