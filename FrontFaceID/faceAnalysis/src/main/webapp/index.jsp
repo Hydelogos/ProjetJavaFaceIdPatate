@@ -51,7 +51,7 @@
 
                         <div class="tab-pane active" id="webcamAgent" role="tabpanel">
                             <div id="container">
-                              <img src="" id="snap" class="mt-3"></img>
+                              <img src="" id="snap" class="mt-3" style="width:840px; height: 400px;"></img>
                             </div>
                         </div>
 
