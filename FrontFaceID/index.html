@@ -25,33 +25,51 @@
     <div>
 
 
-        <div class="row mt-5">
-            <div class="col-md-8 offset-md-2">
+        <div class="row mt-3">
+            <div class="col-md-6">
                 <div class="col tab-content">
 
                     <div class="tab-pane active" id="webcamAgent" role="tabpanel">
                         <div id="container">
-                            <video autoplay="true" class="videoElement"></video>
+                            <video autoplay="true" class="videoElement mt-3"></video>
+                           <div class="row"></div> <button id="startbutton" type="button" class="btn m-2"
+                                style="background-color: #379EC1">Prendre une photo <i class="fas fa-camera"></i>
+                            </button></div>
                         </div>
                     </div>
 
                 </div>
+
+                <div class="col-md-6">
+                    <div class="col tab-content">
+    
+                        <div class="tab-pane active" id="webcamAgent" role="tabpanel">
+                            <div id="container">
+ 
+                            </div>
+                        </div>
+    
+                    </div>
+
+
             </div>
+       
         </div>
 
-        <button>screenshot</button>
-        <div class="mt-3">
-            <label><i class="fas fa-user-shield selectedIcon"></i></label>
-            <label class="switch m-3">
-                <input type="checkbox" id="switchCam">
-                <span class="slider round"></span>
-            </label>
-            <label><i class="fas fa-tools"></i></label>
-        </div>
+        <div class="col-md-6">
+            <div class="mt-3">
+                <label><i class="fas fa-user-shield selectedIcon RecoIcon"></i></label>
+                <label class="switch m-3">
+                    <input type="checkbox" id="switchCam">
+                    <span class="slider round"></span>
+                </label>
+                <label><i class="fas fa-tools RecoIcon"></i></label>
+            </div>
 
-        <div class="row mt-2">
-            <div class="alert alert-primary m-auto" role="alert">
-                Reconnaissance des Agents
+            <div class="row mt-2">
+                <div class="alert m-auto" style="background-color: #379EC1" role="alert">
+                    Reconnaissance des Agents
+                </div>
             </div>
         </div>
 
