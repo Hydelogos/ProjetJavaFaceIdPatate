@@ -1,6 +1,7 @@
 $('document').ready(function () {
 	var myUrl = "";
 	var labels = []
+	var myurls = []
 	const firebaseConfig = {
 			  apiKey: "AIzaSyBwyPYT6Ip5dGbeE6R5P-Zk8m6_ojPsxe4",
 			  authDomain: "faceanalysis-f875c.firebaseapp.com",
@@ -14,7 +15,9 @@ $('document').ready(function () {
 	var storage = firebase.storage();
 	var storageRef = storage.ref();
 	var imagesRef = storageRef.child('images');
+	
 	imagesRef.listAll().then(function(res) {
+		labels = [];
 		  res.prefixes.forEach(function(folderRef) {
 		    // All the prefixes under listRef.
 		    // You may call listAll() recursively on them.
@@ -23,7 +26,7 @@ $('document').ready(function () {
 		  res.items.forEach(function(itemRef) {
 		    // All the items under listRef.
 			  console.log(itemRef);
-			  labels = [];
+			  
 			  labels.push(itemRef.name.replace(".jpg", ""))
 			  itemRef.getDownloadURL().then(function(url) {
 				  // `url` is the download URL for 'images/stars.jpg'
@@ -43,6 +46,7 @@ $('document').ready(function () {
 				  // Or inserted into an <img> element:
 				  var img = document.getElementById('snap');
 				  myUrl = url;
+				  myurls.push(url)
 				  
 				}).catch(function(error) {
 				  console.log(error)
@@ -77,11 +81,12 @@ var video = document.querySelector(".videoElement");
     console.log("entrainement sur l image d exemple")
     const labeledFaceDescriptors = await Promise.all(
 
-      labels.map(async label => {
+      labels.map(async function(label, index) {
         // fetch image data from urls and convert blob to HTMLImage element
-        const imgUrl = `${label}.jpg`
+        
         var imgtest = document.getElementById('snap');
-        const img = await faceapi.fetchImage(myUrl)
+        const img = await faceapi.fetchImage(myurls[index])
+        console.log(myUrl)
         // detect the face with the highest score in the image and compute it's landmarks and face descriptor
         const fullFaceDescription = await faceapi.detectSingleFace(img, new faceapi.SsdMobilenetv1Options()).withFaceLandmarks(true).withFaceDescriptor()
 
