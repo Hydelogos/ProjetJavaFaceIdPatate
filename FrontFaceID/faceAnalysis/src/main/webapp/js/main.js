@@ -98,14 +98,14 @@ var video = document.querySelector(".videoElement");
     
       console.log("on essaie de comparer la cam aux données d entrainement")
       const input = document.getElementById('snap')
-      let fullFaceDescriptions = await faceapi.detectSingleFace(input, new faceapi.SsdMobilenetv1Options()).withFaceLandmarks(true).withFaceDescriptor()
+      let fullFaceDescriptions = await faceapi.detectAllFaces(input, new faceapi.SsdMobilenetv1Options()).withFaceLandmarks(true).withFaceDescriptors()
       const maxDescriptorDistance = 0.6;
       const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, maxDescriptorDistance);
       console.log("comparaison terminée")
       if (!fullFaceDescriptions) {
           throw new Error(`pas de visage détecté sur la capture`);
         }
-      const results = faceMatcher.findBestMatch(fullFaceDescriptions.descriptor)
+      const results = fullFaceDescriptions.map(fd => faceMatcher.findBestMatch(fd.descriptor))
       console.log(results)
 
   }
