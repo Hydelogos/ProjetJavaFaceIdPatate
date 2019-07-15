@@ -3,10 +3,11 @@ var video = document.querySelector(".videoElement");
   const btn = document.querySelector('button');
     btn.disabled = false;
     btn.onclick = e => {
-      takeASnap()
-      .then(download);
+      reconnaissance();
     };
   async function reconnaissance(){
+    takeASnap()
+    .then(download);
     const MODEL_URL = '/models'
 
     await faceapi.loadSsdMobilenetv1Model(MODEL_URL)
@@ -17,7 +18,7 @@ var video = document.querySelector(".videoElement");
     const labeledFaceDescriptors = await Promise.all(
       labels.map(async label => {
         // fetch image data from urls and convert blob to HTMLImage element
-        const imgUrl = `${label}.png`
+        const imgUrl = `${label}.jpg`
         const img = await faceapi.fetchImage(imgUrl)
 
         // detect the face with the highest score in the image and compute it's landmarks and face descriptor
