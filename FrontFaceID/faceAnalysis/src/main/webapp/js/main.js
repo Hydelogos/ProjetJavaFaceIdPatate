@@ -2,6 +2,7 @@ $('document').ready(function () {
 	var myUrl = "";
 	var labels = []
 	var myurls = []
+	var runOnce = false;
 	const firebaseConfig = {
 			  apiKey: "AIzaSyBwyPYT6Ip5dGbeE6R5P-Zk8m6_ojPsxe4",
 			  authDomain: "faceanalysis-f875c.firebaseapp.com",
@@ -69,36 +70,49 @@ var video = document.querySelector(".videoElement");
   async function reconnaissance(){
     /*takeASnap()
     .then(download);*/
-    console.log("chargement des modeles")
-    const MODEL_URL = './models'
+	if(runOnce){
+		console.log("on essaie de comparer la cam aux données d entrainement")
+	      const input = document.getElementById('snap')
+	      let fullFaceDescriptions = await faceapi.detectAllFaces(input, new faceapi.SsdMobilenetv1Options()).withFaceLandmarks(true).withFaceDescriptors()
+	      const maxDescriptorDistance = 0.6;
+	      const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, maxDescriptorDistance);
+	      console.log("comparaison terminée")
+	      if (!fullFaceDescriptions) {
+	          throw new Error(`pas de visage détecté sur la capture`);
+	        }
+	      const results = fullFaceDescriptions.map(fd => faceMatcher.findBestMatch(fd.descriptor))
+	      console.log(results)
+	}else{
+	    console.log("chargement des modeles")
+	    const MODEL_URL = './models'
+	
+	    await faceapi.loadSsdMobilenetv1Model(MODEL_URL)
+	    await faceapi.loadFaceLandmarkModel(MODEL_URL)
+	    await faceapi.loadFaceRecognitionModel(MODEL_URL)
+	    await faceapi.loadTinyFaceDetectorModel(MODEL_URL)
+	    await faceapi.nets.faceLandmark68TinyNet.loadFromUri(MODEL_URL)
+	    
+	    console.log("entrainement sur l image d exemple")
+	    const labeledFaceDescriptors = await Promise.all(
 
-    await faceapi.loadSsdMobilenetv1Model(MODEL_URL)
-    await faceapi.loadFaceLandmarkModel(MODEL_URL)
-    await faceapi.loadFaceRecognitionModel(MODEL_URL)
-    await faceapi.loadTinyFaceDetectorModel(MODEL_URL)
-    await faceapi.nets.faceLandmark68TinyNet.loadFromUri(MODEL_URL)
-    
-    console.log("entrainement sur l image d exemple")
-    const labeledFaceDescriptors = await Promise.all(
-
-      labels.map(async function(label, index) {
-        // fetch image data from urls and convert blob to HTMLImage element
-        
-        var imgtest = document.getElementById('snap');
-        const img = await faceapi.fetchImage(myurls[index])
-        console.log(myUrl)
-        // detect the face with the highest score in the image and compute it's landmarks and face descriptor
-        const fullFaceDescription = await faceapi.detectSingleFace(img, new faceapi.SsdMobilenetv1Options()).withFaceLandmarks(true).withFaceDescriptor()
-
-        if (!fullFaceDescription) {
-          throw new Error(`pas de visage détecté pour ${label}`)
-        }
-
-        const faceDescriptors = [fullFaceDescription.descriptor]
-        console.log("fin de l'entrainement")
-        return new faceapi.LabeledFaceDescriptors(label, faceDescriptors)
-      })
-    )
+	      labels.map(async function(label, index) {
+	        // fetch image data from urls and convert blob to HTMLImage element
+	        
+	        var imgtest = document.getElementById('snap');
+	        const img = await faceapi.fetchImage(myurls[index])
+	        console.log(myUrl)
+	        // detect the face with the highest score in the image and compute it's landmarks and face descriptor
+	        const fullFaceDescription = await faceapi.detectSingleFace(img, new faceapi.SsdMobilenetv1Options()).withFaceLandmarks(true).withFaceDescriptor()
+	
+	        if (!fullFaceDescription) {
+	          throw new Error(`pas de visage détecté pour ${label}`)
+	        }
+	
+	        const faceDescriptors = [fullFaceDescription.descriptor]
+	        console.log("fin de l'entrainement")
+	        return new faceapi.LabeledFaceDescriptors(label, faceDescriptors)
+	      })
+	    )
 
     
       console.log("on essaie de comparer la cam aux données d entrainement")
@@ -112,6 +126,8 @@ var video = document.querySelector(".videoElement");
         }
       const results = fullFaceDescriptions.map(fd => faceMatcher.findBestMatch(fd.descriptor))
       console.log(results)
+      runOnce = true;
+	}
 
   }
 
