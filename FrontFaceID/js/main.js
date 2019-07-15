@@ -45,7 +45,7 @@ var video = document.querySelector(".videoElement");
 
 
     $('#switchCam').on('click', function (e) {
-        $('i').toggleClass('selectedIcon');
+        $('RecoIcon').toggleClass('selectedIcon');
         alerteBool = !alerteBool;
         $('.alert').html('Reconnaissance ' + ChangeAlert());
         StartCam();
@@ -61,9 +61,7 @@ var video = document.querySelector(".videoElement");
 var alerteBool = false;
 
 function StartCam() {
-
-
-
+ 
     if (video.srcObject == null) {
         if (navigator.mediaDevices.getUserMedia) {
             navigator.mediaDevices.getUserMedia({

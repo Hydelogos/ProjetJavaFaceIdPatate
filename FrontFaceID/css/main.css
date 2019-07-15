@@ -15,7 +15,7 @@
 
  .videoElement {
      margin: 10px;
-     width: 70%;
+     width: 90%;
  }
 
 
@@ -42,7 +42,7 @@
      left: 0;
      right: 0;
      bottom: 0;
-     background-color: lawngreen;
+     background-color: #379EC1;
      -webkit-transition: .4s;
      transition: .4s;
  }
@@ -81,7 +81,7 @@
  }
 
  .selectedIcon {
-     background-color: lawngreen;
+     background-color: #379EC1;
      border-radius: 20px;
      transform: scale(1.8)
  }
