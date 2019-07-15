@@ -174,8 +174,8 @@ function takeASnap(){
   console.log("on crée un canvas")
   const canvas = document.createElement('canvas'); // create a canvas
   const ctx = canvas.getContext('2d'); // get its context
-  canvas.width = video.videoWidth; // set its size to the one of the video
-  canvas.height = video.videoHeight;
+  canvas.width = video..clientWidth; // set its size to the one of the video
+  canvas.height = video.clientHeight;
   console.log("on construit l image à partir de la vidéo")
   ctx.drawImage(video, 0,0); // the video
   console.log("on renvoie l image au format jpg")
