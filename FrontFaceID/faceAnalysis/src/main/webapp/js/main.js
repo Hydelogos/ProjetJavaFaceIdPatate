@@ -59,6 +59,7 @@ var video = document.querySelector(".videoElement");
     btn.disabled = false;
     btn.onclick = e => {
       console.log("clic bouton");
+      takeASnap();
       reconnaissance();
     };
   async function reconnaissance(){
@@ -94,9 +95,9 @@ var video = document.querySelector(".videoElement");
       })
     )
 
-    takeASnap().then(async function(blob){
+    
       console.log("on essaie de comparer la cam aux données d entrainement")
-      const input = document.querySelector('video')
+      const input = document.getElementById('snap')
       let fullFaceDescriptions = await faceapi.detectSingleFace(input, new faceapi.SsdMobilenetv1Options()).withFaceLandmarks(true).withFaceDescriptor()
       const maxDescriptorDistance = 0.6;
       const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, maxDescriptorDistance);
@@ -106,7 +107,6 @@ var video = document.querySelector(".videoElement");
         }
       const results = fullFaceDescriptions.map(fd => faceMatcher.findBestMatch(fd.descriptor))
       console.log(results)
-    })
 
   }
 
