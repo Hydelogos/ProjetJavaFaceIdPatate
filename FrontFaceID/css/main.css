@@ -18,6 +18,11 @@
      width: 90%;
  }
 
+ #snap {
+     margin: 10px;
+     width: 90%;
+ }
+
 
  /* The switch - the box around the slider */
  .switch {

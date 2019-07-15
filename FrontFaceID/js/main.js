@@ -3,19 +3,22 @@ var video = document.querySelector(".videoElement");
   const btn = document.querySelector('button');
     btn.disabled = false;
     btn.onclick = e => {
+      console.log("clic bouton");
       reconnaissance();
     };
   async function reconnaissance(){
-    takeASnap()
-    .then(download);
+    /*takeASnap()
+    .then(download);*/
+    console.log("chargement des modeles")
     const MODEL_URL = '/models'
 
     await faceapi.loadSsdMobilenetv1Model(MODEL_URL)
     await faceapi.loadFaceLandmarkModel(MODEL_URL)
     await faceapi.loadFaceRecognitionModel(MODEL_URL)
     var labels = ['gwen']
-
+    console.log("entrainement sur l image d exemple")
     const labeledFaceDescriptors = await Promise.all(
+
       labels.map(async label => {
         // fetch image data from urls and convert blob to HTMLImage element
         const imgUrl = `${label}.jpg`
@@ -29,15 +32,19 @@ var video = document.querySelector(".videoElement");
         }
 
         const faceDescriptors = [fullFaceDescription.descriptor]
+        console.log("fin de l'entrainement")
         return new faceapi.LabeledFaceDescriptors(label, faceDescriptors)
       })
     )
-    const input = document.getElementById('myImage')
+
     takeASnap().then(async function(blob){
-      let fullFaceDescriptions = await faceapi.detectAllFaces(blob).withFaceLandmarks().withFaceDescriptors()
+      console.log("on essaie de comparer la cam aux données d entrainement")
+      const imgUrl2 = `gwen2.jpg`
+      const img2 = await faceapi.fetchImage(imgUrl2)
+      let fullFaceDescriptions = await faceapi.detectAllFaces(img2).withFaceLandmarks().withFaceDescriptors()
       const maxDescriptorDistance = 0.6;
       const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, maxDescriptorDistance);
-
+      console.log("comparaison terminée")
       const results = fullFaceDescriptions.map(fd => faceMatcher.findBestMatch(fd.descriptor))
       console.log(results)
     })
@@ -62,7 +69,7 @@ var video = document.querySelector(".videoElement");
 var alerteBool = false;
 
 function StartCam() {
- 
+
     if (video.srcObject == null) {
         if (navigator.mediaDevices.getUserMedia) {
             navigator.mediaDevices.getUserMedia({
@@ -105,13 +112,19 @@ function ChangeAlert() {
 
 
 function takeASnap(){
+  console.log("on crée un canvas")
   const canvas = document.createElement('canvas'); // create a canvas
   const ctx = canvas.getContext('2d'); // get its context
   canvas.width = video.videoWidth; // set its size to the one of the video
   canvas.height = video.videoHeight;
+  console.log("on construit l image à partir de la vidéo")
   ctx.drawImage(video, 0,0); // the video
+  console.log("on renvoie l image au format jpg")
+  var image = document.getElementById("snap");
   return new Promise((res, rej)=>{
-    canvas.toBlob(res, 'image/jpeg'); // request a Blob from the canvas
+    image.src = canvas.toDataURL('image/jpeg', 1.0); // request a Blob from the canvas
+    res(image.src);
+
   });
 }
 function download(blob){
