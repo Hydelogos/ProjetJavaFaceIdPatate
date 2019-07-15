@@ -105,7 +105,7 @@ var video = document.querySelector(".videoElement");
       if (!fullFaceDescriptions) {
           throw new Error(`pas de visage détecté sur la capture`);
         }
-      const results = fullFaceDescriptions.map(fd => faceMatcher.findBestMatch(fd.descriptor))
+      const results = faceMatcher.findBestMatch(fullFaceDescriptions.descriptor)
       console.log(results)
 
   }
